@@ -45,4 +45,9 @@ class TodoRepositoryImpl implements TodoRepository {
     await _todoBox.put(todo.timestampInMillisecondsFromEpoch.toString(), todo);
   }
 
+  @override
+  Future<void> close() {
+    return _todoStreamController.close();
+  }
+
 }

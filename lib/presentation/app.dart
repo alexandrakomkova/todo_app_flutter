@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/presentation/home_page.dart';
 
 import '../data/repository/todo_repository_impl.dart';
-import 'home_screen.dart';
 
 class App extends StatelessWidget {
   final TodoRepositoryImpl Function() createTodoRepositoryImpl;
@@ -17,7 +16,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return RepositoryProvider<TodoRepositoryImpl>(
       create: (_) => createTodoRepositoryImpl(),
-      //dispose: (repository) => repository.dispose(),
+      dispose: (repository) => repository.close(),
       child: const AppView(),
     );
   }
