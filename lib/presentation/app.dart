@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_app/presentation/home_page.dart';
 
 import '../data/repository/todo_repository_impl.dart';
 import 'home_screen.dart';
@@ -29,7 +30,7 @@ class AppView extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: HomeScreen()
+        home: HomePage()
     );
   }
 }
