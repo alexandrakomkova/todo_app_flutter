@@ -15,17 +15,6 @@ class AddTodoDialog extends StatefulWidget {
 class _AddTodoDialogState extends State<AddTodoDialog> {
   final _formKey = GlobalKey<FormState>();
 
-  // final _titleController = TextEditingController();
-  // final _descriptionController = TextEditingController();
-  //
-  // @override
-  // void dispose() {
-  //   _titleController.dispose();
-  //   _descriptionController.dispose();
-  //
-  //   super.dispose();
-  // }
-
   @override
   Widget build(BuildContext context) {
     final state = context.watch<AddTodoBloc>().state;
@@ -117,17 +106,7 @@ class _AddTodoDialogState extends State<AddTodoDialog> {
                         // save in db
                         //print('${_titleController.text} ${_descriptionController.text}');
 
-                        // status.isLoadingOrSuccess
-                        //     ? null
-                        //     : () => context.read<AddTodoBloc>().add(const OnTodoSave());
-                        //
-
-                        // status.isLoadingOrSuccess
-                        //     ? print(status.toString())
-                        //     : () => context.read<AddTodoBloc>().add(const OnTodoSave());
-
                         context.read<AddTodoBloc>().add(const OnTodoSave());
-
                         Navigator.of(context).pop();
                       }
                     },

@@ -6,7 +6,6 @@ import 'package:todo_app/presentation/bloc/todo_bloc/todo_bloc.dart';
 import 'package:todo_app/presentation/widget/add_todo_dialog.dart';
 import 'package:todo_app/presentation/widget/todo_card.dart';
 
-import '../domain/model/todo.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../domain/model/todo.dart';
+import '../bloc/todo_bloc/todo_bloc.dart';
 
 
 class TodoCard extends StatelessWidget {
@@ -61,8 +63,17 @@ class TodoCard extends StatelessWidget {
             ),
           ],
         ),
-        trailing: Icon(
-            Icons.delete
+        trailing: InkWell(
+          onTap: () {
+            context.read<TodoBloc>().add(DeleteTodoEvent(todo));
+          },
+          borderRadius: BorderRadius.circular(50),
+          child: Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Icon(
+              Icons.delete
+            ),
+          ),
         ),
       ),
     );
