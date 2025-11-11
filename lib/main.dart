@@ -15,6 +15,7 @@ Future<void> main() async {
   configureInjection();
 
   final box = await Hive.openBox<Todo>('todos');
+  print('box length: ${box.length}');
 
   runApp(
       App(createTodoRepositoryImpl: () => TodoRepositoryImpl(box))

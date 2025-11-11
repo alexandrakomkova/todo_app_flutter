@@ -30,6 +30,7 @@ class AddTodoBloc extends Bloc<AddTodoBlocEvent, AddTodoState> {
       OnTodoTitleChanged event,
       Emitter<AddTodoState> emit,
   ) {
+    print(event.title);
     emit(state.copyWith(title: event.title));
   }
 
@@ -49,16 +50,19 @@ class AddTodoBloc extends Bloc<AddTodoBlocEvent, AddTodoState> {
     final todo = (state.initialTodo ?? Todo(
         title: '',
         description: '',
-        timestampInMillisecondsFromEpoch: -1
+        timestampInMillisecondsFromEpoch: DateTime.now().millisecondsSinceEpoch
     )).copyWith(
       title: state.title,
       description: state.description,
+      timestampInMillisecondsFromEpoch: DateTime.now().millisecondsSinceEpoch
     );
 
     try {
+      print('added: ${todo.title} ${todo.description} ${todo.timestampInMillisecondsFromEpoch}');
       await _todoRepositoryImpl.addTodo(todo);
       emit(state.copyWith(status: AddTodoStatus.success));
     } catch (e) {
+      print('fail _onTodoSave: ${e.toString()}');
       emit(state.copyWith(status: AddTodoStatus.failure));
     }
   }

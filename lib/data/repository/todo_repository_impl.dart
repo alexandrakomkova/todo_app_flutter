@@ -31,17 +31,18 @@ class TodoRepositoryImpl implements TodoRepository {
 
   @override
   Future<void> addTodo(Todo todo) async {
-    await _todoBox.put(todo.timestampInMillisecondsFromEpoch, todo);
+    // key can not be more than 32-bit so convert to string
+    await _todoBox.put(todo.timestampInMillisecondsFromEpoch.toString(), todo);
   }
 
   @override
   Future<void> deleteTodo(Todo todo) async {
-    await _todoBox.delete(todo.timestampInMillisecondsFromEpoch);
+    await _todoBox.delete(todo.timestampInMillisecondsFromEpoch.toString());
   }
 
   @override
   Future<void> updateTodo(Todo todo) async {
-    await _todoBox.put(todo.timestampInMillisecondsFromEpoch, todo);
+    await _todoBox.put(todo.timestampInMillisecondsFromEpoch.toString(), todo);
   }
 
 }

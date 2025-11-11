@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../domain/model/todo.dart';
+import '../bloc/add_todo_bloc/add_todo_bloc.dart';
+import '../bloc/todo_bloc/todo_bloc.dart';
 
 class AddTodoDialog extends StatefulWidget {
   const AddTodoDialog({super.key});
@@ -10,19 +15,22 @@ class AddTodoDialog extends StatefulWidget {
 class _AddTodoDialogState extends State<AddTodoDialog> {
   final _formKey = GlobalKey<FormState>();
 
-  final _titleController = TextEditingController();
-  final _descriptionController = TextEditingController();
-
-  @override
-  void dispose() {
-    _titleController.dispose();
-    _descriptionController.dispose();
-
-    super.dispose();
-  }
+  // final _titleController = TextEditingController();
+  // final _descriptionController = TextEditingController();
+  //
+  // @override
+  // void dispose() {
+  //   _titleController.dispose();
+  //   _descriptionController.dispose();
+  //
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
+    final state = context.watch<AddTodoBloc>().state;
+    final status = context.select((AddTodoBloc bloc) => bloc.state.status);
+
     return Dialog(
       child: SingleChildScrollView(
         child: Container(
@@ -56,7 +64,9 @@ class _AddTodoDialogState extends State<AddTodoDialog> {
                   const SizedBox(height: 12.0),
                   // task title text field
                   TextFormField(
-                    controller: _titleController,
+                    key: const Key('addTodoDialog_title_textFormField'),
+                    initialValue: state.title,
+                    //controller: _titleController,
                     decoration: InputDecoration(
                       hintText: 'Title',
                       border: OutlineInputBorder(
@@ -70,12 +80,18 @@ class _AddTodoDialogState extends State<AddTodoDialog> {
 
                       return null;
                     },
+                    maxLength: 20,
+                    onChanged: (value) {
+                      context.read<AddTodoBloc>().add(OnTodoTitleChanged(value));
+                    },
                   ),
                   const SizedBox(height: 12.0),
 
                   // task description text field
                   TextFormField(
-                    controller: _descriptionController,
+                   // controller: _descriptionController,
+                    key: const Key('addTodoDialog_description_textFormField'),
+                    initialValue: state.description,
                     keyboardType: TextInputType.multiline,
                     maxLines: null,
                     minLines: 5,
@@ -86,6 +102,9 @@ class _AddTodoDialogState extends State<AddTodoDialog> {
                         borderRadius: BorderRadius.circular(12.0)
                       ),
                     ),
+                    onChanged: (value) {
+                      context.read<AddTodoBloc>().add(OnTodoDescriptionChanged(value));
+                    },
                   ),
                   const SizedBox(height: 20.0),
 
@@ -96,7 +115,19 @@ class _AddTodoDialogState extends State<AddTodoDialog> {
                     onPressed: () {
                       if (_formKey.currentState?.validate() ?? false) {
                         // save in db
-                        print('${_titleController.text} ${_descriptionController.text}');
+                        //print('${_titleController.text} ${_descriptionController.text}');
+
+                        // status.isLoadingOrSuccess
+                        //     ? null
+                        //     : () => context.read<AddTodoBloc>().add(const OnTodoSave());
+                        //
+
+                        // status.isLoadingOrSuccess
+                        //     ? print(status.toString())
+                        //     : () => context.read<AddTodoBloc>().add(const OnTodoSave());
+
+                        context.read<AddTodoBloc>().add(const OnTodoSave());
+
                         Navigator.of(context).pop();
                       }
                     },
