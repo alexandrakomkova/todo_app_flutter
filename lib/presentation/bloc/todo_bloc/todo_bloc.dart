@@ -17,6 +17,8 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
     on<DeleteTodoEvent>(_deleteTodo);
     on<UpdateTodoEvent>(_updateTodo);
     on<GetTodoListEvent>(_getTodoList);
+
+    on<OnCompletedChanged>(_onCompletedChanged);
   }
 
   Future<void> _addTodo(
@@ -73,5 +75,18 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
       ),
     );
 
+  }
+
+  Future<void> _onCompletedChanged(
+      OnCompletedChanged event,
+      Emitter<TodoState> emit,
+  ) async {
+    final newTodo = event.todo.copyWith(isCompleted: event.isCompleted);
+    try {
+      await _todoRepositoryImpl.updateTodo(newTodo);
+      emit(state.copyWith(status: () => TodoStatus.success));
+    } catch(e) {
+      emit(state.copyWith(status: () => TodoStatus.failure));
+    }
   }
 }

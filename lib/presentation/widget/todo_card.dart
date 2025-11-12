@@ -35,7 +35,22 @@ class TodoCard extends StatelessWidget {
       margin: EdgeInsets.all(4.0),
       padding: EdgeInsets.all(4.0),
       child: ListTile(
-        leading: todo.isCompleted ? Icon(Icons.done) : Icon(Icons.clear_rounded),
+        //leading: todo.isCompleted ? Icon(Icons.done) : Icon(Icons.clear_rounded),
+        leading: InkWell(
+          onTap: () {
+            context.read<TodoBloc>().add(OnCompletedChanged(todo: todo, isCompleted: !todo.isCompleted));
+          },
+          splashColor: Colors.black.withValues(alpha: 0.5),
+          borderRadius: BorderRadius.circular(50),
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20.0),
+              color: Colors.black.withValues(alpha: 0.15)
+            ),
+            padding: EdgeInsets.all(8.0),
+            child: todo.isCompleted ? Icon(Icons.done) : Icon(Icons.clear_rounded),
+          ),
+        ),
         title: Text(
             todo.title,
           style: TextStyle(
@@ -68,7 +83,11 @@ class TodoCard extends StatelessWidget {
             context.read<TodoBloc>().add(DeleteTodoEvent(todo));
           },
           borderRadius: BorderRadius.circular(50),
-          child: Padding(
+          child: Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20.0),
+                color: Colors.black.withValues(alpha: 0.15)
+            ),
             padding: EdgeInsets.all(8.0),
             child: Icon(
               Icons.delete

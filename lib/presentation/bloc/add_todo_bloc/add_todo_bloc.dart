@@ -58,11 +58,9 @@ class AddTodoBloc extends Bloc<AddTodoBlocEvent, AddTodoState> {
     );
 
     try {
-      print('added: ${todo.title} ${todo.description} ${todo.timestampInMillisecondsFromEpoch}');
       await _todoRepositoryImpl.addTodo(todo);
       emit(state.copyWith(status: AddTodoStatus.success));
     } catch (e) {
-      print('fail _onTodoSave: ${e.toString()}');
       emit(state.copyWith(status: AddTodoStatus.failure));
     }
   }
