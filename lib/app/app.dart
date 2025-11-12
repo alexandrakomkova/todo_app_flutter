@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/presentation/home_page.dart';
 
 import '../data/repository/todo_repository_impl.dart';
+import '../presentation/theme/theme.dart';
 
 class App extends StatelessWidget {
   final TodoRepositoryImpl Function() createTodoRepositoryImpl;
@@ -29,6 +30,9 @@ class AppView extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
+        theme: TodoTheme.light,
+        darkTheme: TodoTheme.dark,
+        themeMode: ThemeMode.system,
         home: HomePage()
     );
   }

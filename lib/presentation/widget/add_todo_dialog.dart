@@ -24,7 +24,6 @@ class _AddTodoDialogState extends State<AddTodoDialog> {
       child: SingleChildScrollView(
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.white,
             borderRadius: BorderRadius.circular(20.0),
           ),
           padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
@@ -113,7 +112,7 @@ class _AddTodoDialogState extends State<AddTodoDialog> {
                     style: ButtonStyle(
                       shape: WidgetStatePropertyAll(
                         RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12.0),
+                          borderRadius: BorderRadius.circular(18.0),
                         ),
                       ),
                     ),
