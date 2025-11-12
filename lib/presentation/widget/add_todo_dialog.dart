@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../domain/model/todo.dart';
 import '../bloc/add_todo_bloc/add_todo_bloc.dart';
-import '../bloc/todo_bloc/todo_bloc.dart';
 
 class AddTodoDialog extends StatefulWidget {
   const AddTodoDialog({super.key});
@@ -18,9 +16,13 @@ class _AddTodoDialogState extends State<AddTodoDialog> {
   @override
   Widget build(BuildContext context) {
     final state = context.watch<AddTodoBloc>().state;
-    final status = context.select((AddTodoBloc bloc) => bloc.state.status);
 
-    return Dialog(
+    return BlocListener<AddTodoBloc, AddTodoState>(
+          listenWhen: (previous, current) =>
+            previous.status != current.status &&
+                current.status == AddTodoStatus.success,
+          listener: (context, state) => Navigator.of(context).pop(),
+      child: Dialog(
       child: SingleChildScrollView(
         child: Container(
           decoration: BoxDecoration(
@@ -54,7 +56,6 @@ class _AddTodoDialogState extends State<AddTodoDialog> {
                   TextFormField(
                     key: const Key('addTodoDialog_title_textFormField'),
                     initialValue: state.title,
-                    //controller: _titleController,
                     decoration: InputDecoration(
                       hintText: 'Title',
                       border: OutlineInputBorder(
@@ -77,7 +78,6 @@ class _AddTodoDialogState extends State<AddTodoDialog> {
 
                   // task description text field
                   TextFormField(
-                   // controller: _descriptionController,
                     key: const Key('addTodoDialog_description_textFormField'),
                     initialValue: state.description,
                     keyboardType: TextInputType.multiline,
@@ -103,10 +103,7 @@ class _AddTodoDialogState extends State<AddTodoDialog> {
                     onPressed: () {
                       if (_formKey.currentState?.validate() ?? false) {
                         // save in db
-                        //print('${_titleController.text} ${_descriptionController.text}');
-
                         context.read<AddTodoBloc>().add(const OnTodoSave());
-                        Navigator.of(context).pop();
                       }
                     },
                     style: ButtonStyle(
@@ -129,6 +126,7 @@ class _AddTodoDialogState extends State<AddTodoDialog> {
             ),
           ),
         ),
+      ),
       ),
     );
   }

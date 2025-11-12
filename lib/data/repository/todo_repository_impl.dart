@@ -42,7 +42,7 @@ class TodoRepositoryImpl implements TodoRepository {
 
   @override
   Future<void> updateTodo(Todo todo) async {
-    print('TodoRepoImpl updateTodo: ${todo.timestampInMillisecondsFromEpoch}');
+
     await _todoBox.put(todo.timestampInMillisecondsFromEpoch.toString(), todo);
   }
 
