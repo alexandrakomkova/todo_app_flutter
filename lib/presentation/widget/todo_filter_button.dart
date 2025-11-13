@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/presentation/bloc/todo_bloc/todo_bloc.dart';
 
-import '../../domain/model/todo_filter.dart';
+import '../helpers/todo_filter.dart';
 
 class TodoFilterButton extends StatelessWidget {
   const TodoFilterButton({super.key});

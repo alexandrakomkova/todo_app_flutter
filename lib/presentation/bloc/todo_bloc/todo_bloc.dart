@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:todo_app/domain/model/todo_filter.dart';
+import 'package:todo_app/presentation/helpers/todo_filter.dart';
 
 import '../../../data/repository/todo_repository_impl.dart';
 import '../../../domain/model/todo.dart';
