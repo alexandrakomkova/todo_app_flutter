@@ -47,3 +47,19 @@ final class OnCompletedChanged extends TodoEvent {
   @override
   List<Object> get props => [todo, isCompleted];
 }
+
+final class OnFilterChanged extends TodoEvent {
+  final TodoFilter filter;
+
+  const OnFilterChanged(this.filter);
+  @override
+  List<Object> get props => [filter];
+}
+
+final class OnOrderTypeChanged extends TodoEvent {
+  final TodoOrderType orderType;
+
+  const OnOrderTypeChanged(this.orderType);
+  @override
+  List<Object> get props => [orderType];
+}

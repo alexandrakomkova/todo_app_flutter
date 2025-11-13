@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/data/repository/todo_repository_impl.dart';
 import 'package:todo_app/presentation/bloc/add_todo_bloc/add_todo_bloc.dart';
+import 'package:todo_app/presentation/bloc/app_bar_bloc/app_bar_bloc.dart';
 import 'package:todo_app/presentation/bloc/todo_bloc/todo_bloc.dart';
 import 'package:todo_app/presentation/widget/add_todo_dialog.dart';
 import 'package:todo_app/presentation/widget/todo_card.dart';
+import 'package:todo_app/presentation/widget/todo_filter_button.dart';
+import 'package:todo_app/presentation/widget/todo_sort_button.dart';
 
 
 class HomePage extends StatelessWidget {
@@ -12,13 +15,30 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) =>
-      TodoBloc(
-          todoRepositoryImpl: context.read<TodoRepositoryImpl>()
-      )
-        ..add(const GetTodoListEvent()),
-      child: const HomeView(),
+    // return BlocProvider(
+    //   create: (context) =>
+    //   TodoBloc(
+    //       todoRepositoryImpl: context.read<TodoRepositoryImpl>()
+    //   )
+    //     ..add(const GetTodoListEvent()),
+    //   child: const HomeView(),
+    // );
+
+    return MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) =>
+            TodoBloc(
+                todoRepositoryImpl: context.read<TodoRepositoryImpl>()
+            )..add(const GetTodoListEvent())
+          ),
+          BlocProvider(create: (context) =>
+              AppBarBloc(
+                  todoRepositoryImpl: context.read<TodoRepositoryImpl>()
+              )..add(const AppBarTodoStatsRequested())
+          ),
+        ],
+        child: const HomeView(),
     );
   }
 }
@@ -43,6 +63,17 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: BlocBuilder<AppBarBloc, AppBarState>(
+            builder: (context, state) {
+              return Text('✅ ${state.completedTodoCount}   ❌ ${state.unCompletedTodoCount}');
+            }
+        ),
+        actions: const [
+          TodoFilterButton(),
+          TodoSortButton(),
+        ],
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           _showAddTodoDialog(context);
@@ -72,9 +103,9 @@ class HomeView extends StatelessWidget {
                   children: [
                     Expanded(
                         child: ListView.builder(
-                          itemCount: state.todoList.length,
+                          itemCount: state.filteredAndOrderedTodos.length,
                           itemBuilder: (context, index) {
-                            var todo = state.todoList[index];
+                            var todo = state.filteredAndOrderedTodos.elementAt(index);
 
                             return TodoCard(todo: todo);
                           },
