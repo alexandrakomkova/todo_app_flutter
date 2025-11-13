@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/data/repository/todo_repository_impl.dart';
 import 'package:todo_app/presentation/bloc/add_todo_bloc/add_todo_bloc.dart';
+import 'package:todo_app/presentation/bloc/app_bar_bloc/app_bar_bloc.dart';
 import 'package:todo_app/presentation/bloc/todo_bloc/todo_bloc.dart';
 import 'package:todo_app/presentation/widget/add_todo_dialog.dart';
 import 'package:todo_app/presentation/widget/todo_card.dart';
@@ -12,13 +13,30 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) =>
-      TodoBloc(
-          todoRepositoryImpl: context.read<TodoRepositoryImpl>()
-      )
-        ..add(const GetTodoListEvent()),
-      child: const HomeView(),
+    // return BlocProvider(
+    //   create: (context) =>
+    //   TodoBloc(
+    //       todoRepositoryImpl: context.read<TodoRepositoryImpl>()
+    //   )
+    //     ..add(const GetTodoListEvent()),
+    //   child: const HomeView(),
+    // );
+
+    return MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) =>
+            TodoBloc(
+                todoRepositoryImpl: context.read<TodoRepositoryImpl>()
+            )..add(const GetTodoListEvent())
+          ),
+          BlocProvider(create: (context) =>
+              AppBarBloc(
+                  todoRepositoryImpl: context.read<TodoRepositoryImpl>()
+              )..add(const AppBarTodoStatsRequested())
+          ),
+        ],
+        child: const HomeView(),
     );
   }
 }
@@ -44,7 +62,11 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-
+        title: BlocBuilder<AppBarBloc, AppBarState>(
+            builder: (context, state) {
+              return Text('✅${state.completedTodoCount}/❌${state.unCompletedTodoCount}');
+            }
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
