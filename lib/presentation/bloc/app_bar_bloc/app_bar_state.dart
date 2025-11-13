@@ -17,6 +17,7 @@ final class AppBarState extends Equatable {
     AppBarStatus? status,
     int? completedTodoCount,
     int? unCompletedTodoCount,
+    TodoFilter? filter,
   }) {
     return AppBarState(
       status: status ?? this.status,
@@ -26,6 +27,10 @@ final class AppBarState extends Equatable {
   }
 
   @override
-  List<Object> get props => [status, completedTodoCount, unCompletedTodoCount];
+  List<Object> get props => [
+    status,
+    completedTodoCount,
+    unCompletedTodoCount,
+  ];
 }
 

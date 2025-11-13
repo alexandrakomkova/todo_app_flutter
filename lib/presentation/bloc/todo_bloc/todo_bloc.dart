@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:todo_app/domain/model/todo_filter.dart';
 
 import '../../../data/repository/todo_repository_impl.dart';
 import '../../../domain/model/todo.dart';
@@ -19,6 +20,7 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
     on<GetTodoListEvent>(_getTodoList);
 
     on<OnCompletedChanged>(_onCompletedChanged);
+    on<OnFilterChanged>(_onFilterChanged);
   }
 
   Future<void> _addTodo(
@@ -98,5 +100,12 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
     } catch(e) {
       emit(state.copyWith(status: TodoStatus.failure));
     }
+  }
+
+  void _onFilterChanged(
+      OnFilterChanged event,
+      Emitter<TodoState> emit,
+      ) {
+    emit(state.copyWith(filter: event.filter));
   }
 }

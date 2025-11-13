@@ -6,6 +6,7 @@ import 'package:todo_app/presentation/bloc/app_bar_bloc/app_bar_bloc.dart';
 import 'package:todo_app/presentation/bloc/todo_bloc/todo_bloc.dart';
 import 'package:todo_app/presentation/widget/add_todo_dialog.dart';
 import 'package:todo_app/presentation/widget/todo_card.dart';
+import 'package:todo_app/presentation/widget/todo_filter_button.dart';
 
 
 class HomePage extends StatelessWidget {
@@ -64,9 +65,12 @@ class HomeView extends StatelessWidget {
       appBar: AppBar(
         title: BlocBuilder<AppBarBloc, AppBarState>(
             builder: (context, state) {
-              return Text('✅${state.completedTodoCount}/❌${state.unCompletedTodoCount}');
+              return Text('✅ ${state.completedTodoCount}   ❌ ${state.unCompletedTodoCount}');
             }
         ),
+        actions: const [
+          TodoFilterButton(),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -97,9 +101,9 @@ class HomeView extends StatelessWidget {
                   children: [
                     Expanded(
                         child: ListView.builder(
-                          itemCount: state.todoList.length,
+                          itemCount: state.filteredTodos.length,
                           itemBuilder: (context, index) {
-                            var todo = state.todoList[index];
+                            var todo = state.filteredTodos.elementAt(index);
 
                             return TodoCard(todo: todo);
                           },
