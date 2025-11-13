@@ -25,9 +25,6 @@ class TodoRepositoryImpl implements TodoRepository {
     }
   }
 
-  // @override
-  // Stream<List<Todo>> getTodos() => _todoStreamController.asBroadcastStream();
-
   @override
   Stream<List<Todo>> getTodos() => _todoStreamController.asBroadcastStream();
 
