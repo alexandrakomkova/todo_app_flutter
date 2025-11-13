@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/presentation/bloc/todo_bloc/todo_bloc.dart';
 
-import '../helpers/todo_filter.dart';
+import '../../domain/model/todo_filter/todo_filter.dart';
 
 class TodoFilterButton extends StatelessWidget {
   const TodoFilterButton({super.key});
@@ -39,7 +39,7 @@ class TodoFilterButton extends StatelessWidget {
             ),
           ];
         },
-      icon: const Icon(Icons.filter_list_rounded),
+      icon: const Icon(Icons.filter_alt_rounded),
     );
   }
 }

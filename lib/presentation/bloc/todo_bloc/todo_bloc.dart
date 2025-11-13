@@ -1,9 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:todo_app/presentation/helpers/todo_filter.dart';
+import 'package:todo_app/domain/model/todo_filter/todo_filter.dart';
 
 import '../../../data/repository/todo_repository_impl.dart';
 import '../../../domain/model/todo.dart';
+import '../../../domain/model/todo_order/todo_order.dart';
 
 part 'todo_event.dart';
 part 'todo_state.dart';
@@ -21,6 +22,7 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
 
     on<OnCompletedChanged>(_onCompletedChanged);
     on<OnFilterChanged>(_onFilterChanged);
+    on<OnOrderTypeChanged>(_onOrderTypeChanged);
   }
 
   Future<void> _addTodo(
@@ -67,23 +69,24 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
   Future<void> _getTodoList(
       GetTodoListEvent event,
       Emitter<TodoState> emit
-  ) async {
+      ) async {
     await Future.delayed(Duration(microseconds: 1));
     emit(state.copyWith(status: TodoStatus.loading));
 
     await emit.forEach<List<Todo>>(
       _todoRepositoryImpl.getTodos(),
-      onData: (todos) => state.copyWith(
-        status: TodoStatus.success,
-        todoList: todos,
-      ),
+      onData: (todos) {
+        return state.copyWith(
+          status: TodoStatus.success,
+          todoList: todos,
+        );
+      },
       onError: (_, _) => state.copyWith(
         status: TodoStatus.failure,
       ),
     );
 
     await Future.delayed(Duration(microseconds: 1));
-
   }
 
   Future<void> _onCompletedChanged(
@@ -107,5 +110,12 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
       Emitter<TodoState> emit,
       ) {
     emit(state.copyWith(filter: event.filter));
+  }
+
+  void _onOrderTypeChanged(
+      OnOrderTypeChanged event,
+      Emitter<TodoState> emit,
+      ) {
+    emit(state.copyWith(orderType: event.orderType));
   }
 }

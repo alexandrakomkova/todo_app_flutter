@@ -7,6 +7,7 @@ import 'package:todo_app/presentation/bloc/todo_bloc/todo_bloc.dart';
 import 'package:todo_app/presentation/widget/add_todo_dialog.dart';
 import 'package:todo_app/presentation/widget/todo_card.dart';
 import 'package:todo_app/presentation/widget/todo_filter_button.dart';
+import 'package:todo_app/presentation/widget/todo_sort_button.dart';
 
 
 class HomePage extends StatelessWidget {
@@ -70,6 +71,7 @@ class HomeView extends StatelessWidget {
         ),
         actions: const [
           TodoFilterButton(),
+          TodoSortButton(),
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -101,9 +103,9 @@ class HomeView extends StatelessWidget {
                   children: [
                     Expanded(
                         child: ListView.builder(
-                          itemCount: state.filteredTodos.length,
+                          itemCount: state.filteredAndOrderedTodos.length,
                           itemBuilder: (context, index) {
-                            var todo = state.filteredTodos.elementAt(index);
+                            var todo = state.filteredAndOrderedTodos.elementAt(index);
 
                             return TodoCard(todo: todo);
                           },

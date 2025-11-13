@@ -55,3 +55,11 @@ final class OnFilterChanged extends TodoEvent {
   @override
   List<Object> get props => [filter];
 }
+
+final class OnOrderTypeChanged extends TodoEvent {
+  final TodoOrderType orderType;
+
+  const OnOrderTypeChanged(this.orderType);
+  @override
+  List<Object> get props => [orderType];
+}
