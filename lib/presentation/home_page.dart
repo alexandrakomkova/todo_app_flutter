@@ -18,7 +18,7 @@ class HomePage extends StatelessWidget {
           todoRepositoryImpl: context.read<TodoRepositoryImpl>()
       )
         ..add(const GetTodoListEvent()),
-      child: HomeView(),
+      child: const HomeView(),
     );
   }
 }
@@ -31,9 +31,8 @@ class HomeView extends StatelessWidget {
         context: context,
       builder: (BuildContext dialogContext) {
         return BlocProvider(
-          create: (context) => AddTodoBloc(
+          create: (dialogContext) => AddTodoBloc(
               todoRepositoryImpl: context.read<TodoRepositoryImpl>(),
-            initialTodo: null
           ),
           child: const AddTodoDialog(),
         );

@@ -9,3 +9,5 @@ abstract class TodoRepository {
   // to close any used resources
   Future<void> close();
 }
+
+class TodoNotFoundException implements Exception {}

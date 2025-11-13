@@ -27,22 +27,23 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
   ) async {
     try {
       await _todoRepositoryImpl.addTodo(event.todo);
-      emit(state.copyWith(status: () => TodoStatus.success));
+      emit(state.copyWith(status: TodoStatus.success));
     } catch (e) {
-      emit(state.copyWith(status: () => TodoStatus.failure));
+      emit(state.copyWith(status: TodoStatus.failure));
     }
-
   }
 
   Future<void> _deleteTodo(
       DeleteTodoEvent event,
       Emitter<TodoState> emit
   ) async {
+    emit(state.copyWith(status: TodoStatus.initial));
+
     try {
       await _todoRepositoryImpl.deleteTodo(event.todo);
-      emit(state.copyWith(status: () => TodoStatus.success));
+      emit(state.copyWith(status: TodoStatus.success));
     } catch (e) {
-      emit(state.copyWith(status: () => TodoStatus.failure));
+      emit(state.copyWith(status: TodoStatus.failure));
     }
   }
 
@@ -50,30 +51,36 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
       UpdateTodoEvent event,
       Emitter<TodoState> emit
   ) async {
+    emit(state.copyWith(status: TodoStatus.initial));
     try {
+      final updatedTodoList = List<Todo>.from(state.todoList);
       await _todoRepositoryImpl.updateTodo(event.todo);
-      emit(state.copyWith(status: () => TodoStatus.success));
+      emit(state.copyWith(status: TodoStatus.success, todoList: updatedTodoList));
     } catch (e) {
-      emit(state.copyWith(status: () => TodoStatus.failure));
+      emit(state.copyWith(status: TodoStatus.failure));
     }
+
   }
 
   Future<void> _getTodoList(
       GetTodoListEvent event,
       Emitter<TodoState> emit
   ) async {
-    emit(state.copyWith(status: () => TodoStatus.loading));
+    await Future.delayed(Duration(microseconds: 1));
+    emit(state.copyWith(status: TodoStatus.loading));
 
     await emit.forEach<List<Todo>>(
       _todoRepositoryImpl.getTodos(),
       onData: (todos) => state.copyWith(
-        status: () => TodoStatus.success,
-        todoList: () => todos,
+        status: TodoStatus.success,
+        todoList: todos,
       ),
       onError: (_, _) => state.copyWith(
-        status: () => TodoStatus.failure,
+        status: TodoStatus.failure,
       ),
     );
+
+    await Future.delayed(Duration(microseconds: 1));
 
   }
 
@@ -81,12 +88,15 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
       OnCompletedChanged event,
       Emitter<TodoState> emit,
   ) async {
+    emit(state.copyWith(status: TodoStatus.initial));
+
     final newTodo = event.todo.copyWith(isCompleted: event.isCompleted);
+
     try {
       await _todoRepositoryImpl.updateTodo(newTodo);
-      emit(state.copyWith(status: () => TodoStatus.success));
+      emit(state.copyWith(status: TodoStatus.success));
     } catch(e) {
-      emit(state.copyWith(status: () => TodoStatus.failure));
+      emit(state.copyWith(status: TodoStatus.failure));
     }
   }
 }

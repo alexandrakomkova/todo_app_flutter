@@ -27,6 +27,8 @@ class TodoCard extends StatelessWidget {
       colors: [Colors.red.shade200, Colors.purple.shade200],
     );
 
+    final state = context.watch<TodoBloc>().state;
+
     return Container(
       decoration: BoxDecoration(
         gradient: todo.isCompleted ? doneGradient : notDoneGradient,
@@ -35,7 +37,6 @@ class TodoCard extends StatelessWidget {
       margin: EdgeInsets.all(4.0),
       padding: EdgeInsets.all(4.0),
       child: ListTile(
-        //leading: todo.isCompleted ? Icon(Icons.done) : Icon(Icons.clear_rounded),
         leading: InkWell(
           onTap: () {
             context.read<TodoBloc>().add(OnCompletedChanged(todo: todo, isCompleted: !todo.isCompleted));

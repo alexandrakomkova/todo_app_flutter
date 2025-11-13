@@ -12,13 +12,11 @@ class AddTodoBloc extends Bloc<AddTodoBlocEvent, AddTodoState> {
 
   AddTodoBloc({
     required TodoRepositoryImpl todoRepositoryImpl,
-    required Todo? initialTodo,
   }) : _todoRepositoryImpl = todoRepositoryImpl,
         super(
         AddTodoState(
-          //initialTodo: initialTodo,
-          title: initialTodo?.title ?? '',
-          description: initialTodo?.description ?? '',
+          title:  '',
+          description:  '',
         ),
   ) {
     on<OnTodoTitleChanged>(_onTodoTitleChanged);
@@ -30,14 +28,13 @@ class AddTodoBloc extends Bloc<AddTodoBlocEvent, AddTodoState> {
       OnTodoTitleChanged event,
       Emitter<AddTodoState> emit,
   ) {
-    print(event.title);
     emit(state.copyWith(title: event.title));
   }
 
   void _onTodoDescriptionChanged(
       OnTodoDescriptionChanged event,
       Emitter<AddTodoState> emit,
-      ) {
+  ) {
     emit(state.copyWith(description: event.description));
   }
 
@@ -46,16 +43,6 @@ class AddTodoBloc extends Bloc<AddTodoBlocEvent, AddTodoState> {
       Emitter<AddTodoState> emit
   ) async {
     emit(state.copyWith(status: AddTodoStatus.loading));
-
-    // final todo = (state.initialTodo ?? Todo(
-    //     title: '',
-    //     description: '',
-    //     timestampInMillisecondsFromEpoch: DateTime.now().millisecondsSinceEpoch
-    // )).copyWith(
-    //   title: state.title,
-    //   description: state.description,
-    //   timestampInMillisecondsFromEpoch: DateTime.now().millisecondsSinceEpoch
-    // );
 
     final todo = Todo(
         title: state.title,
