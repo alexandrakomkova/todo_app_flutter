@@ -27,8 +27,6 @@ class TodoCard extends StatelessWidget {
       colors: [Colors.red.shade200, Colors.purple.shade200],
     );
 
-    final state = context.watch<TodoBloc>().state;
-
     return Container(
       decoration: BoxDecoration(
         gradient: todo.isCompleted ? doneGradient : notDoneGradient,
