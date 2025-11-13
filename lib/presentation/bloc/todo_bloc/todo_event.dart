@@ -34,3 +34,16 @@ final class DeleteTodoEvent extends TodoEvent {
 final class GetTodoListEvent extends TodoEvent {
   const GetTodoListEvent();
 }
+
+final class OnCompletedChanged extends TodoEvent {
+  final Todo todo;
+  final bool isCompleted;
+
+  const OnCompletedChanged({
+    required this.todo,
+    required this.isCompleted,
+  });
+
+  @override
+  List<Object> get props => [todo, isCompleted];
+}

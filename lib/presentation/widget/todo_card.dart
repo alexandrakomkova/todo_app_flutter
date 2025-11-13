@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../domain/model/todo.dart';
+import '../bloc/todo_bloc/todo_bloc.dart';
 
 
 class TodoCard extends StatelessWidget {
@@ -25,6 +27,8 @@ class TodoCard extends StatelessWidget {
       colors: [Colors.red.shade200, Colors.purple.shade200],
     );
 
+    final state = context.watch<TodoBloc>().state;
+
     return Container(
       decoration: BoxDecoration(
         gradient: todo.isCompleted ? doneGradient : notDoneGradient,
@@ -33,7 +37,21 @@ class TodoCard extends StatelessWidget {
       margin: EdgeInsets.all(4.0),
       padding: EdgeInsets.all(4.0),
       child: ListTile(
-        leading: todo.isCompleted ? Icon(Icons.done) : Icon(Icons.clear_rounded),
+        leading: InkWell(
+          onTap: () {
+            context.read<TodoBloc>().add(OnCompletedChanged(todo: todo, isCompleted: !todo.isCompleted));
+          },
+          splashColor: Colors.black.withValues(alpha: 0.5),
+          borderRadius: BorderRadius.circular(50),
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20.0),
+              color: Colors.black.withValues(alpha: 0.15)
+            ),
+            padding: EdgeInsets.all(8.0),
+            child: todo.isCompleted ? Icon(Icons.done) : Icon(Icons.clear_rounded),
+          ),
+        ),
         title: Text(
             todo.title,
           style: TextStyle(
@@ -61,8 +79,21 @@ class TodoCard extends StatelessWidget {
             ),
           ],
         ),
-        trailing: Icon(
-            Icons.delete
+        trailing: InkWell(
+          onTap: () {
+            context.read<TodoBloc>().add(DeleteTodoEvent(todo));
+          },
+          borderRadius: BorderRadius.circular(50),
+          child: Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20.0),
+                color: Colors.black.withValues(alpha: 0.15)
+            ),
+            padding: EdgeInsets.all(8.0),
+            child: Icon(
+              Icons.delete
+            ),
+          ),
         ),
       ),
     );

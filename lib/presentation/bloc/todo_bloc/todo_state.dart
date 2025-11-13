@@ -12,12 +12,12 @@ final class TodoState extends Equatable {
   });
 
   TodoState copyWith({
-    List<Todo> Function()? todoList,
-    TodoStatus Function()? status,
+    List<Todo>? todoList,
+    TodoStatus? status,
   }) {
     return TodoState(
-      status: status != null ? status() : this.status,
-      todoList:  todoList != null ? todoList() : this.todoList,
+      status: status ?? this.status,
+      todoList:  todoList ?? this.todoList,
     );
   }
 

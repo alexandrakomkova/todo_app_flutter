@@ -10,10 +10,10 @@ class TodoAdapter extends TypeAdapter<Todo> {
   @override
   Todo read(BinaryReader reader) {
     return Todo(
-        title: reader.readString(),
-        description: reader.readString(),
-        isCompleted: reader.readBool(),
-        timestampInMillisecondsFromEpoch: reader.readInt(),
+        title: reader.read(),
+        description: reader.read(),
+        isCompleted: reader.read(),
+        timestampInMillisecondsFromEpoch: reader.read(),
     );
   }
   
