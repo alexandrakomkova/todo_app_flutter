@@ -13,7 +13,10 @@ class AppLocalizationsRu extends AppLocalizations {
       'Нажмите \"+\", чтобы добавить вашу первую задачу!';
 
   @override
-  String get addTodoDialogTitle => 'Добавить задачу';
+  String get addTodoDialogTitleAddMode => 'Добавить задачу';
+
+  @override
+  String get addTodoDialogTitleEditMode => 'Редактировать задачу';
 
   @override
   String get addTodoDialogTodoTitleField => 'Задача';

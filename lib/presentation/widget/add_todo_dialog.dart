@@ -2,10 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/l10n/l10n.dart';
 
+import '../../domain/model/todo.dart';
 import '../bloc/add_todo_bloc/add_todo_bloc.dart';
 
 class AddTodoDialog extends StatefulWidget {
-  const AddTodoDialog({super.key});
+  final Todo? initialTodo;
+
+  const AddTodoDialog({
+    required this.initialTodo,
+    super.key
+  });
 
   @override
   State<AddTodoDialog> createState() => _AddTodoDialogState();
@@ -45,7 +51,7 @@ class _AddTodoDialogState extends State<AddTodoDialog> {
                   // dialog title
                   Center(
                     child: Text(
-                      l10n.addTodoDialogTitle,
+                      state.isNewTodo ? l10n.addTodoDialogTitleAddMode : l10n.addTodoDialogTitleEditMode,
                       style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w600,
@@ -63,6 +69,7 @@ class _AddTodoDialogState extends State<AddTodoDialog> {
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12.0)
                       ),
+                      errorStyle: TextStyle(fontSize: 11.0)
                     ),
                     validator: (value) {
                       if(value == null || value.isEmpty) {
@@ -76,7 +83,7 @@ class _AddTodoDialogState extends State<AddTodoDialog> {
                       context.read<AddTodoBloc>().add(OnTodoTitleChanged(value));
                     },
                   ),
-                  const SizedBox(height: 12.0),
+                  const SizedBox(height: 15.0),
 
                   // task description text field
                   TextFormField(

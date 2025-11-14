@@ -4,10 +4,14 @@
   "@homePageEmptyTodoList": {
     "description": "This text shown when task list is empty"
   },
-  "addTodoDialogTitle": "Add Task",
-  "@addTodoDialogTitle": {
-    "description": "This text shown as title for AddTodoDialog"
+  "addTodoDialogTitleAddMode": "Add Task",
+  "@addTodoDialogTitleAddMode": {
+    "description": "This text shown as title for AddTodoDialog when adding new task"
   },
+  "addTodoDialogTitleEditMode": "Edit Task",
+    "@addTodoDialogTitleEditMode": {
+      "description": "This text shown as title for AddTodoDialog when editing existing task"
+    },
   "addTodoDialogTodoTitleField": "Title",
   "@addTodoDialogTitleField": {
     "description": "This text shown as hint text for AddTodoDialog task title field"

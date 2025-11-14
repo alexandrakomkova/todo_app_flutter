@@ -36,7 +36,7 @@ class TodoTheme {
     return ThemeData(
       colorScheme: ColorScheme.fromSeed(
         brightness: Brightness.light,
-        seedColor: Colors.white
+        seedColor: Colors.deepPurple
       ),
       snackBarTheme: const SnackBarThemeData(
         behavior: SnackBarBehavior.floating,
