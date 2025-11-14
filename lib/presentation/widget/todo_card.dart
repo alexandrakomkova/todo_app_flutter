@@ -8,9 +8,11 @@ import '../bloc/todo_bloc/todo_bloc.dart';
 
 class TodoCard extends StatelessWidget {
   final Todo todo;
+  final void Function() showEditTodoDialog;
 
  const TodoCard({
     required this.todo,
+    required this.showEditTodoDialog,
     super.key
   });
 
@@ -90,6 +92,7 @@ class TodoCard extends StatelessWidget {
             ),
           ),
         ),
+        onTap: () => showEditTodoDialog(),
       ),
     );
   }

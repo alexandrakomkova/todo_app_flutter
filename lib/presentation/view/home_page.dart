@@ -11,6 +11,8 @@ import 'package:todo_app/presentation/widget/todo_card.dart';
 import 'package:todo_app/presentation/widget/todo_filter_button.dart';
 import 'package:todo_app/presentation/widget/todo_sort_button.dart';
 
+import '../../domain/model/todo.dart';
+
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -39,15 +41,16 @@ class HomePage extends StatelessWidget {
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
 
-  void _showAddTodoDialog(BuildContext context) {
+  void _showAddTodoDialog(BuildContext context, [Todo? todo]) {
     showDialog(
         context: context,
       builder: (BuildContext dialogContext) {
         return BlocProvider(
           create: (dialogContext) => AddTodoBloc(
               todoRepositoryImpl: context.read<TodoRepositoryImpl>(),
+              initialTodo: todo
           ),
-          child: const AddTodoDialog(),
+          child: AddTodoDialog(initialTodo: todo,),
         );
       },
     );
@@ -102,7 +105,13 @@ class HomeView extends StatelessWidget {
                           itemBuilder: (context, index) {
                             var todo = state.filteredAndOrderedTodos.elementAt(index);
 
-                            return TodoCard(todo: todo);
+                            return TodoCard(
+                              todo: todo,
+                              showEditTodoDialog: () {
+                                print('$index');
+                                  _showAddTodoDialog(context, todo);
+                              },
+                            );
                           },
                         )
                     ),

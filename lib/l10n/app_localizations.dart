@@ -104,11 +104,17 @@ abstract class AppLocalizations {
   /// **'Click \"+\" to add your first task!'**
   String get homePageEmptyTodoList;
 
-  /// This text shown as title for AddTodoDialog
+  /// This text shown as title for AddTodoDialog when adding new task
   ///
   /// In en, this message translates to:
   /// **'Add Task'**
-  String get addTodoDialogTitle;
+  String get addTodoDialogTitleAddMode;
+
+  /// This text shown as title for AddTodoDialog when editing existing task
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Task'**
+  String get addTodoDialogTitleEditMode;
 
   /// No description provided for @addTodoDialogTodoTitleField.
   ///

@@ -12,7 +12,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get homePageEmptyTodoList => 'Click \"+\" to add your first task!';
 
   @override
-  String get addTodoDialogTitle => 'Add Task';
+  String get addTodoDialogTitleAddMode => 'Add Task';
+
+  @override
+  String get addTodoDialogTitleEditMode => 'Edit Task';
 
   @override
   String get addTodoDialogTodoTitleField => 'Title';

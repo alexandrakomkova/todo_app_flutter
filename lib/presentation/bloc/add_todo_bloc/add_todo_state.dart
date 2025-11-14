@@ -13,15 +13,15 @@ final class AddTodoState extends Equatable {
   final String title;
   final String description;
   final AddTodoStatus status;
-  // final Todo? initialTodo;
+  final Todo? initialTodo;
 
- // bool get isNewTodo => initialTodo == null;
+  bool get isNewTodo => initialTodo == null;
 
   const AddTodoState({
     this.title = '',
     this.description = '',
     this.status = AddTodoStatus.initial,
-    //this.initialTodo
+    this.initialTodo
   });
 
   AddTodoState copyWith({
@@ -34,11 +34,11 @@ final class AddTodoState extends Equatable {
       title: title ?? this.title,
       description: description ?? this.description,
       status: status ?? this.status,
-      //initialTodo: initialTodo ?? this.initialTodo,
+      initialTodo: initialTodo ?? this.initialTodo,
     );
   }
 
   @override
-  List<Object?> get props => [status, title, description];
+  List<Object?> get props => [status, title, description, initialTodo];
 
 }

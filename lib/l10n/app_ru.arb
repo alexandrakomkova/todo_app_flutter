@@ -4,9 +4,13 @@
   "@homePageEmptyTodoList": {
     "description": "This text shown when task list is empty"
   },
-  "addTodoDialogTitle": "Добавить задачу",
-  "@addTodoDialogTitle": {
-    "description": "This text shown as title for AddTodoDialog"
+  "addTodoDialogTitleAddMode": "Добавить задачу",
+  "@addTodoDialogTitleAddMode": {
+    "description": "This text shown as title for AddTodoDialog when adding new task"
+  },
+  "addTodoDialogTitleEditMode": "Редактировать задачу",
+      "@addTodoDialogTitleEditMode": {
+        "description": "This text shown as title for AddTodoDialog when editing existing task"
   },
   "addTodoDialogTodoTitleField": "Задача",
   "@addTodoDialogTitleField": {
