@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_app/presentation/theme/theme.dart';
 
 import '../../domain/model/todo.dart';
 import '../bloc/todo_bloc/todo_bloc.dart';
@@ -15,17 +16,13 @@ class TodoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Gradient? doneGradient = LinearGradient(
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
-      colors: [Colors.green.shade200, Colors.blue.shade200],
-    );
+    Gradient? doneGradient = Theme.of(context).brightness == Brightness.light
+        ? TodoTheme.backgroundTodoCardCompletedLight
+        : TodoTheme.backgroundTodoCardCompletedDark;
 
-    Gradient? notDoneGradient = LinearGradient(
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
-      colors: [Colors.red.shade200, Colors.purple.shade200],
-    );
+    Gradient? notDoneGradient = Theme.of(context).brightness == Brightness.light
+        ? TodoTheme.backgroundTodoCardUnCompletedLight
+        : TodoTheme.backgroundTodoCardUnCompletedDark;
 
     return Container(
       decoration: BoxDecoration(

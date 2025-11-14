@@ -38,7 +38,7 @@ class AppView extends StatelessWidget {
         supportedLocales: [
           Locale('en'),
           Locale('ru'),
-        ],//AppLocalizations.supportedLocales,
+        ],
         home: HomePage()
     );
   }

@@ -68,6 +68,8 @@ class HomeView extends StatelessWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton(
+        shape: const CircleBorder(),
+        elevation: 0.0,
         onPressed: () {
           _showAddTodoDialog(context);
         },

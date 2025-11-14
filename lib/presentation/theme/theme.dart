@@ -1,11 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/presentation/widget/todo_card.dart';
 
 class TodoTheme {
+
+  static Gradient get backgroundTodoCardCompletedLight {
+    return LinearGradient(
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+      colors: [Colors.green.shade200, Colors.blue.shade200],
+    );
+  }
+  static Gradient get backgroundTodoCardUnCompletedLight {
+    return LinearGradient(
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+      colors: [Colors.red.shade200, Colors.purple.shade200],
+    );
+  }
+
+  static Gradient get backgroundTodoCardCompletedDark {
+    return LinearGradient(
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+      colors: [Colors.green.shade700, Colors.blue.shade900],
+    );
+  }
+  static Gradient get backgroundTodoCardUnCompletedDark {
+    return LinearGradient(
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+      colors: [Colors.red.shade800, Colors.purple.shade900],
+    );
+  }
 
   static ThemeData get light {
     return ThemeData(
       colorScheme: ColorScheme.fromSeed(
-        seedColor: Colors.deepPurple
+        brightness: Brightness.light,
+        seedColor: Colors.white
       ),
       snackBarTheme: const SnackBarThemeData(
         behavior: SnackBarBehavior.floating,
