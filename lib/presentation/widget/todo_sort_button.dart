@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_app/l10n/l10n.dart';
 import 'package:todo_app/presentation/bloc/todo_bloc/todo_bloc.dart';
 
 import '../../domain/model/todo_order/todo_order.dart';
@@ -9,6 +10,8 @@ class TodoSortButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     final activeOrderType = context.select(
           (TodoBloc bloc) => bloc.state.orderType,
     );
@@ -27,11 +30,11 @@ class TodoSortButton extends StatelessWidget {
         return [
           PopupMenuItem(
             value: TodoOrderType.ascending,
-            child: Text('Newer first'),
+            child: Text(l10n.appBarSortNewestFirst),
           ),
           PopupMenuItem(
             value: TodoOrderType.descending,
-            child: Text('Older first'),
+            child: Text(l10n.appBarSortOldestFirst),
           ),
         ];
       },

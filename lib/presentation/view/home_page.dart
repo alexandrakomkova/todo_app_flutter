@@ -1,6 +1,8 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/data/repository/todo_repository_impl.dart';
+import 'package:todo_app/l10n/l10n.dart';
 import 'package:todo_app/presentation/bloc/add_todo_bloc/add_todo_bloc.dart';
 import 'package:todo_app/presentation/bloc/app_bar_bloc/app_bar_bloc.dart';
 import 'package:todo_app/presentation/bloc/todo_bloc/todo_bloc.dart';
@@ -15,15 +17,6 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return BlocProvider(
-    //   create: (context) =>
-    //   TodoBloc(
-    //       todoRepositoryImpl: context.read<TodoRepositoryImpl>()
-    //   )
-    //     ..add(const GetTodoListEvent()),
-    //   child: const HomeView(),
-    // );
-
     return MultiBlocProvider(
         providers: [
           BlocProvider(
@@ -90,7 +83,7 @@ class HomeView extends StatelessWidget {
               } else if (state.status != TodoStatus.success) {
                 return const SizedBox();
               } else {
-                return _emptyTodoList();
+                return _emptyTodoList(context);
               }
             }
 
@@ -121,17 +114,18 @@ class HomeView extends StatelessWidget {
   }
 }
 
-Widget _emptyTodoList() {
+Widget _emptyTodoList(BuildContext context) {
   return Center(
     child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
-          '''Click "+" to add your first task!''',
+          context.l10n.homePageEmptyTodoList,
           style: TextStyle(
             fontSize: 18,
           ),
+          textAlign: TextAlign.center,
         ),
       ],
     ),
