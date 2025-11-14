@@ -1,0 +1,47 @@
+{
+"@@locale": "ru",
+  "homePageEmptyTodoList": "Нажмите \"+\", чтобы добавить вашу первую задачу!",
+  "@homePageEmptyTodoList": {
+    "description": "This text shown when task list is empty"
+  },
+  "addTodoDialogTitle": "Добавить задачу",
+  "@addTodoDialogTitle": {
+    "description": "This text shown as title for AddTodoDialog"
+  },
+  "addTodoDialogTodoTitleField": "Задача",
+  "@addTodoDialogTitleField": {
+    "description": "This text shown as hint text for AddTodoDialog task title field"
+  },
+  "addTodoDialogTodoTitleFieldEmptyError": "Пожалуйста, введите название задачи",
+  "@addTodoDialogTodoTitleFieldEmptyError": {
+    "description": "This text shown as error for AddTodoDialog task title empty field"
+  },
+  "addTodoDialogTodoDescriptionField": "Описание задачи",
+  "@addTodoDialogDescriptionField": {
+    "description": "This text shown as hint text for AddTodoDialog task description field"
+  },
+  "addTodoDialogTodoSaveButton": "Сохранить",
+  "@addTodoDialogTodoSaveButton": {
+    "description": "This text shown as button text for AddTodoDialog save button"
+  },
+  "appBarFilterAll": "Все",
+  "@appBarFilterAll": {
+    "description": "Text shown in the filter dropdown of the AppBar for the option to display all todos"
+  },
+  "appBarFilterCompletedOnly": "Только выполненные",
+  "@appBarFilterCompletedOnly": {
+    "description": "Text shown in the filter dropdown of the AppBar for the option to display only completed todos"
+  },
+  "appBarFilterUncompletedOnly": "Только невыполненные",
+  "@appBarFilterUncompletedOnly": {
+    "description": "Text shown in the filter dropdown of the AppBar for the option to display only uncompleted todos"
+  },
+  "appBarSortNewestFirst": "Сначала новые",
+  "@appBarSortNewestFirst": {
+    "description": "Text shown in the order dropdown of the AppBar for the option to sort todos in ascending order"
+  },
+  "appBarSortOldestFirst": "Сначала старые",
+  "@appBarSortOldestFirst": {
+    "description": "Text shown in the order dropdown of the AppBar for the option to sort todos in ascending order"
+  }
+}

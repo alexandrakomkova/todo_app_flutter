@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_app/l10n/l10n.dart';
 
 import '../bloc/add_todo_bloc/add_todo_bloc.dart';
 
@@ -16,6 +17,7 @@ class _AddTodoDialogState extends State<AddTodoDialog> {
   @override
   Widget build(BuildContext context) {
     final state = context.watch<AddTodoBloc>().state;
+    final l10n = context.l10n;
 
     return BlocListener<AddTodoBloc, AddTodoState>(
           listenWhen: (previous, current) =>
@@ -41,9 +43,9 @@ class _AddTodoDialogState extends State<AddTodoDialog> {
                   ),
 
                   // dialog title
-                  const Center(
+                  Center(
                     child: Text(
-                      "Add Task",
+                      l10n.addTodoDialogTitle,
                       style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w600,
@@ -57,14 +59,14 @@ class _AddTodoDialogState extends State<AddTodoDialog> {
                     key: const Key('addTodoDialog_title_textFormField'),
                     initialValue: state.title,
                     decoration: InputDecoration(
-                      hintText: 'Title',
+                      hintText: l10n.addTodoDialogTodoTitleField,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12.0)
                       ),
                     ),
                     validator: (value) {
                       if(value == null || value.isEmpty) {
-                        return 'Please enter task title';
+                        return l10n.addTodoDialogTodoTitleFieldEmptyError;
                       }
 
                       return null;
@@ -85,7 +87,7 @@ class _AddTodoDialogState extends State<AddTodoDialog> {
                     minLines: 5,
                     maxLength: 200,
                     decoration: InputDecoration(
-                      hintText: 'Description',
+                      hintText: l10n.addTodoDialogTodoDescriptionField,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12.0)
                       ),
@@ -115,8 +117,8 @@ class _AddTodoDialogState extends State<AddTodoDialog> {
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),
-                      child: const Text(
-                          'Save',
+                      child: Text(
+                          l10n.addTodoDialogTodoSaveButton,
                       ),
                     ),
                   ),

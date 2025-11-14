@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/presentation/view/home_page.dart';
 
 import '../data/repository/todo_repository_impl.dart';
+import '../l10n/app_localizations.dart';
 import '../presentation/theme/theme.dart';
 
 class App extends StatelessWidget {
@@ -33,6 +34,11 @@ class AppView extends StatelessWidget {
         theme: TodoTheme.light,
         darkTheme: TodoTheme.dark,
         themeMode: ThemeMode.system,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: [
+          Locale('en'),
+          Locale('ru'),
+        ],//AppLocalizations.supportedLocales,
         home: HomePage()
     );
   }

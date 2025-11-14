@@ -17,7 +17,7 @@ Future<void> main() async {
   configureInjection();
 
   final box = await Hive.openBox<Todo>('todos');
-  print('box length: ${box.length}');
+  //print('box length: ${box.length}');
 
   Bloc.observer = const AppBlocObserver();
 
