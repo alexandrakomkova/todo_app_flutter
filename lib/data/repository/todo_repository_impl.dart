@@ -1,29 +1,15 @@
 import 'package:hive_ce/hive.dart';
-import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:todo_app/domain/model/todo.dart';
 import 'package:todo_app/domain/repository/todo_repository.dart';
 
-@LazySingleton(as: TodoRepository)
 class TodoRepositoryImpl implements TodoRepository {
   final Box<Todo> _todoBox;
+  final BehaviorSubject<List<Todo>> _todoStreamController;
 
-  TodoRepositoryImpl(this._todoBox) {
-    _init();
-  }
-
-  late final _todoStreamController = BehaviorSubject<List<Todo>>.seeded(
-    const [],
+  TodoRepositoryImpl(this._todoBox): _todoStreamController = BehaviorSubject<List<Todo>>.seeded(
+    _todoBox.values.toList(),
   );
-
-  void _init() {
-    final todoList = _todoBox.values.toList();
-    if(todoList.isEmpty) {
-      _todoStreamController.add(const []);
-    } else {
-      _todoStreamController.add(todoList);
-    }
-  }
 
   @override
   Stream<List<Todo>> getTodos() => _todoStreamController.asBroadcastStream();
@@ -31,8 +17,7 @@ class TodoRepositoryImpl implements TodoRepository {
 
   @override
   Future<void> addTodo(Todo todo) async {
-    final todos = [..._todoStreamController.value];
-    todos.add(todo);
+    final todos = [..._todoStreamController.value, todo];
     _todoStreamController.add(todos);
 
     // key can not be more than 32-bit so convert to string
@@ -43,12 +28,10 @@ class TodoRepositoryImpl implements TodoRepository {
   Future<void> deleteTodo(Todo todo) async {
     final todos = [..._todoStreamController.value];
     final todoIndex = todos.indexWhere((t) => t.creationTimestamp == todo.creationTimestamp);
-    if (todoIndex == -1) {
-      throw TodoNotFoundException();
-    } else {
-      todos.removeAt(todoIndex);
-      _todoStreamController.add(todos);
-    }
+    if (todoIndex == -1) throw TodoNotFoundException();
+
+    todos.removeAt(todoIndex);
+    _todoStreamController.add(todos);
 
     await _todoBox.delete(todo.creationTimestamp.toString());
   }
@@ -57,8 +40,9 @@ class TodoRepositoryImpl implements TodoRepository {
   Future<void> updateTodo(Todo todo) async {
     final todos = [..._todoStreamController.value];
     final todoIndex = todos.indexWhere((t) => t.creationTimestamp == todo.creationTimestamp);
-    todos[todoIndex] = todo;
+    if (todoIndex == -1) throw TodoNotFoundException();
 
+    todos[todoIndex] = todo;
     _todoStreamController.add(todos);
 
     await _todoBox.put(todo.creationTimestamp.toString(), todo);
