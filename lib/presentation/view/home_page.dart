@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/data/repository/todo_repository_impl.dart';
-import 'package:todo_app/l10n/l10n.dart';
 import 'package:todo_app/presentation/bloc/add_todo_bloc/add_todo_bloc.dart';
 import 'package:todo_app/presentation/bloc/app_bar_bloc/app_bar_bloc.dart';
 import 'package:todo_app/presentation/bloc/todo_bloc/todo_bloc.dart';
@@ -12,6 +11,7 @@ import 'package:todo_app/presentation/widget/todo_filter_button.dart';
 import 'package:todo_app/presentation/widget/todo_sort_button.dart';
 
 import '../../domain/model/todo.dart';
+import '../widget/empty_todo_list.dart';
 
 
 class HomePage extends StatelessWidget {
@@ -33,20 +33,20 @@ class HomePage extends StatelessWidget {
               )..add(const AppBarTodoStatsRequested())
           ),
         ],
-        child: const HomeView(),
+        child: const _HomeView(),
     );
   }
 }
 
-class HomeView extends StatelessWidget {
-  const HomeView({super.key});
+class _HomeView extends StatelessWidget {
+  const _HomeView({super.key});
 
   void _showAddTodoDialog(BuildContext context, [Todo? todo]) {
     showDialog(
         context: context,
-      builder: (BuildContext dialogContext) {
+      builder: (_) {
         return BlocProvider(
-          create: (dialogContext) => AddTodoBloc(
+          create: (_) => AddTodoBloc(
               todoRepositoryImpl: context.read<TodoRepositoryImpl>(),
               initialTodo: todo
           ),
@@ -88,7 +88,7 @@ class HomeView extends StatelessWidget {
               } else if (state.status != TodoStatus.success) {
                 return const SizedBox();
               } else {
-                return _emptyTodoList(context);
+                return EmptyTodoList();
               }
             }
 
@@ -108,8 +108,7 @@ class HomeView extends StatelessWidget {
                             return TodoCard(
                               todo: todo,
                               showEditTodoDialog: () {
-                                print('$index');
-                                  _showAddTodoDialog(context, todo);
+                                _showAddTodoDialog(context, todo);
                               },
                             );
                           },
@@ -124,22 +123,3 @@ class HomeView extends StatelessWidget {
     );
   }
 }
-
-Widget _emptyTodoList(BuildContext context) {
-  return Center(
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Text(
-          context.l10n.homePageEmptyTodoList,
-          style: TextStyle(
-            fontSize: 18,
-          ),
-          textAlign: TextAlign.center,
-        ),
-      ],
-    ),
-  );
-}
-
