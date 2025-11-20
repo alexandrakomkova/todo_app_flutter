@@ -13,11 +13,11 @@ Future<void> main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(TodoAdapter());
 
-  final box = await Hive.openBox<Todo>('todos');
+  final todoBox = await Hive.openBox<Todo>('todos');
 
   Bloc.observer = const AppBlocObserver();
 
   runApp(
-      App(createTodoRepositoryImpl: () => TodoRepositoryImpl(box))
+      App(todoBox: todoBox,)
   );
 }
