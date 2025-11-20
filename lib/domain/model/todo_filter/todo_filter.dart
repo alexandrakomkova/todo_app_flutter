@@ -1,8 +1,11 @@
-import 'package:todo_app/domain/model/todo.dart';
 
-enum TodoFilter { all, completedOnly, unCompletedOnly }
+import '../todo.dart';
 
-extension TodoFilterX on TodoFilter {
+enum TodoFilter {
+  all,
+  completedOnly,
+  unCompletedOnly;
+
   bool apply(Todo todo) {
     switch(this) {
       case TodoFilter.all:
@@ -18,3 +21,4 @@ extension TodoFilterX on TodoFilter {
     return todos.where(apply);
   }
 }
+

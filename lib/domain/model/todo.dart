@@ -28,7 +28,7 @@ class Todo {
       title: title ?? this.title,
       description: description ?? this.description,
       isCompleted: isCompleted ?? this.isCompleted,
-      creationTimestamp: timestampInMillisecondsFromEpoch ?? this.creationTimestamp //DateTime.now().millisecondsSinceEpoch
+      creationTimestamp: timestampInMillisecondsFromEpoch ?? this.creationTimestamp
     );
   }
 }

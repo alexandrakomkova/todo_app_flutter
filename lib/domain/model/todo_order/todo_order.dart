@@ -1,8 +1,8 @@
 import '../todo.dart';
 
-enum TodoOrderType { descending, ascending }
+enum TodoOrderType {
+  descending, ascending;
 
-extension OrderTypeX on TodoOrderType {
   Iterable<Todo> sort(List<Todo> todos) {
     return sortTodos(todos, this);
   }
