@@ -2,14 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/l10n/l10n.dart';
 
-import '/domain/model/todo.dart';
 import '/presentation/bloc/add_todo_bloc/add_todo_bloc.dart';
 
 class AddTodoDialog extends StatefulWidget {
-  final Todo? initialTodo;
 
   const AddTodoDialog({
-    required this.initialTodo,
     super.key
   });
 

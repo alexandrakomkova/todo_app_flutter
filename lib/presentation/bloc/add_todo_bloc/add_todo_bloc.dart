@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 
 import '/domain/model/todo.dart';
 import '/domain/repository/todo_repository.dart';
@@ -9,17 +10,18 @@ part 'add_todo_state.dart';
 
 class AddTodoBloc extends Bloc<AddTodoBlocEvent, AddTodoState> {
   final TodoRepository _todoRepository;
+  final Todo? initialTodo;
 
   AddTodoBloc({
     required TodoRepository todoRepository,
-    required Todo? initialTodo,
+    this.initialTodo,
   }) : _todoRepository = todoRepository,
         super(
-        AddTodoState(
-          initialTodo: initialTodo,
-          title:  initialTodo?.title ?? '',
-          description:  initialTodo?.description ?? '',
-        ),
+          AddTodoState(
+            id: initialTodo?.id ?? '',
+            title: initialTodo?.title ?? '',
+            description:  initialTodo?.description  ?? '',
+          ),
   ) {
 
     on<AddTodoBlocEvent>(
@@ -46,24 +48,31 @@ class AddTodoBloc extends Bloc<AddTodoBlocEvent, AddTodoState> {
   }
 
   Future<void> _onTodoSave(
-      OnTodoSave event,
-      Emitter<AddTodoState> emit
+    OnTodoSave event,
+    Emitter<AddTodoState> emit
   ) async {
     emit(state.copyWith(status: AddTodoStatus.loading));
 
-    final todo = (state.initialTodo ?? Todo(
-        title: '',
-        description: '',
-        creationTimestamp: DateTime.now().millisecondsSinceEpoch
-    )).copyWith(
-      title: state.title,
-      description: state.description,
-    );
-
     try {
-      state.isNewTodo ? await _todoRepository.addTodo(todo) : await _todoRepository.updateTodo(todo);
+      if(state.isNewTodo) {
+        await _todoRepository.addTodo(
+          Todo(
+            title: state.title,
+            description: state.description,
+            creationTimestamp: DateTime.now().millisecondsSinceEpoch,
+          )
+        );
+      } else {
+        await _todoRepository.updateTodo(
+          Todo(
+            title: state.title,
+            description: state.description,
+            creationTimestamp: int.parse(state.id) ,
+          )
+        );
+      }
       emit(state.copyWith(status: AddTodoStatus.success));
-    } catch (e) {
+    } catch(e) {
       emit(state.copyWith(status: AddTodoStatus.failure));
     }
   }

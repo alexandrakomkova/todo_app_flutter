@@ -48,10 +48,10 @@ class _HomeView extends StatelessWidget {
       builder: (_) {
         return BlocProvider(
           create: (_) => AddTodoBloc(
-              todoRepository: context.read<TodoRepositoryImpl>(),
-              initialTodo: todo
+            todoRepository: context.read<TodoRepositoryImpl>(),
+            initialTodo: todo
           ),
-          child: AddTodoDialog(initialTodo: todo,),
+          child: AddTodoDialog(),
         );
       },
     );

@@ -1,8 +1,8 @@
 part of 'add_todo_bloc.dart';
 
-enum AddTodoStatus { initial, loading, success, failure }
+enum AddTodoStatus {
+  initial, loading, success, failure;
 
-extension AddTodoStatusX on AddTodoStatus {
   bool get isLoadingOrSuccess => [
     AddTodoStatus.loading,
     AddTodoStatus.success,
@@ -10,35 +10,40 @@ extension AddTodoStatusX on AddTodoStatus {
 }
 
 final class AddTodoState extends Equatable {
+  final String id;
   final String title;
   final String description;
   final AddTodoStatus status;
-  final Todo? initialTodo;
 
-  bool get isNewTodo => initialTodo == null;
+  bool get isNewTodo => id.isEmpty;
 
   const AddTodoState({
+    this.id = '',
     this.title = '',
     this.description = '',
     this.status = AddTodoStatus.initial,
-    this.initialTodo
   });
 
   AddTodoState copyWith({
+    String? id,
     AddTodoStatus? status,
-    Todo? initialTodo,
     String? title,
     String? description,
   }) {
     return AddTodoState(
+      id: id ?? this.id,
       title: title ?? this.title,
       description: description ?? this.description,
       status: status ?? this.status,
-      initialTodo: initialTodo ?? this.initialTodo,
     );
   }
 
   @override
-  List<Object?> get props => [status, title, description, initialTodo];
+  List<Object?> get props => [
+    id,
+    status,
+    title,
+    description,
+  ];
 
 }
