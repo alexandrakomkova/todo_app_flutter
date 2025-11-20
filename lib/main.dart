@@ -14,7 +14,6 @@ Future<void> main() async {
   Hive.registerAdapter(TodoAdapter());
 
   final box = await Hive.openBox<Todo>('todos');
-  //print('box length: ${box.length}');
 
   Bloc.observer = const AppBlocObserver();
 
