@@ -10,8 +10,8 @@ import 'package:todo_app/presentation/widget/todo_card.dart';
 import 'package:todo_app/presentation/widget/todo_filter_button.dart';
 import 'package:todo_app/presentation/widget/todo_sort_button.dart';
 
-import '../../domain/model/todo.dart';
-import '../widget/empty_todo_list.dart';
+import '/domain/model/todo.dart';
+import '/presentation/widget/empty_todo_list.dart';
 
 
 class HomePage extends StatelessWidget {

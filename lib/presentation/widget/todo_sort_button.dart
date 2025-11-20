@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/l10n/l10n.dart';
 import 'package:todo_app/presentation/bloc/todo_bloc/todo_bloc.dart';
 
-import '../../domain/model/todo_order/todo_order.dart';
+import '/domain/model/todo_order/todo_order.dart';
 
 class TodoSortButton extends StatelessWidget {
   const TodoSortButton({super.key});
