@@ -15,14 +15,18 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
   TodoBloc({
     required TodoRepository todoRepository,
   }): _todoRepository = todoRepository, super(const TodoState()) {
-    on<AddTodoEvent>(_addTodo);
-    on<DeleteTodoEvent>(_deleteTodo);
-    on<UpdateTodoEvent>(_updateTodo);
-    on<GetTodoListEvent>(_getTodoList);
 
-    on<OnCompletedChanged>(_onCompletedChanged);
-    on<OnFilterChanged>(_onFilterChanged);
-    on<OnOrderTypeChanged>(_onOrderTypeChanged);
+    on<TodoEvent>(
+        (event, emit) => switch (event) {
+          final AddTodoEvent event => _addTodo(event, emit),
+          final UpdateTodoEvent event => _updateTodo(event, emit),
+          final DeleteTodoEvent event => _deleteTodo(event, emit),
+          final GetTodoListEvent event => _getTodoList(event, emit),
+          final OnCompletedChanged event => _onCompletedChanged(event, emit),
+          final OnFilterChanged event => _onFilterChanged(event, emit),
+          final OnOrderTypeChanged event => _onOrderTypeChanged(event, emit),
+        }
+    );
   }
 
   Future<void> _addTodo(

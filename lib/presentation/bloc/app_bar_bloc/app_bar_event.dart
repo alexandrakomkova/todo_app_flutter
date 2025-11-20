@@ -1,10 +1,7 @@
 part of 'app_bar_bloc.dart';
 
-sealed class AppBarEvent extends Equatable {
+sealed class AppBarEvent {
   const AppBarEvent();
-
-  @override
-  List<Object?> get props => [];
 }
 
 final class AppBarTodoStatsRequested extends AppBarEvent {

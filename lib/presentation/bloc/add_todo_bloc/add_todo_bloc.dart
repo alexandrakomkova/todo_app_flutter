@@ -21,9 +21,14 @@ class AddTodoBloc extends Bloc<AddTodoBlocEvent, AddTodoState> {
           description:  initialTodo?.description ?? '',
         ),
   ) {
-    on<OnTodoTitleChanged>(_onTodoTitleChanged);
-    on<OnTodoDescriptionChanged>(_onTodoDescriptionChanged);
-    on<OnTodoSave>(_onTodoSave);
+
+    on<AddTodoBlocEvent>(
+      (event, emit) => switch (event) {
+        final OnTodoTitleChanged event => _onTodoTitleChanged(event, emit),
+        final OnTodoDescriptionChanged event => _onTodoDescriptionChanged(event, emit),
+        final OnTodoSave event => _onTodoSave(event, emit),
+      }
+    );
   }
 
   void _onTodoTitleChanged(
