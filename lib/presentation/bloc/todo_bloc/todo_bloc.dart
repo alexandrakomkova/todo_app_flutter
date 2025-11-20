@@ -64,9 +64,9 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
     emit(state.copyWith(status: TodoStatus.initial));
 
     try {
-      final updatedTodoList = List<Todo>.from(state.todoList);
       await _todoRepository.updateTodo(event.todo);
-      emit(state.copyWith(status: TodoStatus.success, todoList: updatedTodoList));
+
+      emit(state.copyWith(status: TodoStatus.success));
     } catch (e) {
       emit(state.copyWith(status: TodoStatus.failure));
     }
