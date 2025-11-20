@@ -36,13 +36,13 @@ class TodoRepositoryImpl implements TodoRepository {
     _todoStreamController.add(todos);
 
     // key can not be more than 32-bit so convert to string
-    await _todoBox.put(todo.timestampInMillisecondsFromEpoch.toString(), todo);
+    await _todoBox.put(todo.creationTimestamp.toString(), todo);
   }
 
   @override
   Future<void> deleteTodo(Todo todo) async {
     final todos = [..._todoStreamController.value];
-    final todoIndex = todos.indexWhere((t) => t.timestampInMillisecondsFromEpoch == todo.timestampInMillisecondsFromEpoch);
+    final todoIndex = todos.indexWhere((t) => t.creationTimestamp == todo.creationTimestamp);
     if (todoIndex == -1) {
       throw TodoNotFoundException();
     } else {
@@ -50,18 +50,18 @@ class TodoRepositoryImpl implements TodoRepository {
       _todoStreamController.add(todos);
     }
 
-    await _todoBox.delete(todo.timestampInMillisecondsFromEpoch.toString());
+    await _todoBox.delete(todo.creationTimestamp.toString());
   }
 
   @override
   Future<void> updateTodo(Todo todo) async {
     final todos = [..._todoStreamController.value];
-    final todoIndex = todos.indexWhere((t) => t.timestampInMillisecondsFromEpoch == todo.timestampInMillisecondsFromEpoch);
+    final todoIndex = todos.indexWhere((t) => t.creationTimestamp == todo.creationTimestamp);
     todos[todoIndex] = todo;
 
     _todoStreamController.add(todos);
 
-    await _todoBox.put(todo.timestampInMillisecondsFromEpoch.toString(), todo);
+    await _todoBox.put(todo.creationTimestamp.toString(), todo);
   }
 
   @override

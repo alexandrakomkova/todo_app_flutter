@@ -11,9 +11,9 @@ extension OrderTypeX on TodoOrderType {
 Iterable<Todo> sortTodos(List<Todo> todos, TodoOrderType orderType) {
   switch(orderType) {
     case TodoOrderType.descending:
-      todos.sort((a,b) => a.timestampInMillisecondsFromEpoch.compareTo(b.timestampInMillisecondsFromEpoch));
+      todos.sort((a,b) => a.creationTimestamp.compareTo(b.creationTimestamp));
     case TodoOrderType.ascending:
-      todos.sort((b,a) => a.timestampInMillisecondsFromEpoch.compareTo(b.timestampInMillisecondsFromEpoch));
+      todos.sort((b,a) => a.creationTimestamp.compareTo(b.creationTimestamp));
   }
 
   return todos;

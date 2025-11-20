@@ -49,7 +49,7 @@ class AddTodoBloc extends Bloc<AddTodoBlocEvent, AddTodoState> {
     final todo = (state.initialTodo ?? Todo(
         title: '',
         description: '',
-        timestampInMillisecondsFromEpoch: DateTime.now().millisecondsSinceEpoch
+        creationTimestamp: DateTime.now().millisecondsSinceEpoch
     )).copyWith(
       title: state.title,
       description: state.description,

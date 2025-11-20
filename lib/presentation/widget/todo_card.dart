@@ -69,7 +69,7 @@ class TodoCard extends StatelessWidget {
               ),
             ),
             Text(
-              todo.formattedDate,
+              todo.formattedCreationTimestamp,
               style: TextStyle(
                   fontSize: 12
               ),
