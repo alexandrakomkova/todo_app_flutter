@@ -1,19 +1,19 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:todo_app/data/repository/todo_repository_impl.dart';
 
 import '../../../domain/model/todo.dart';
+import '../../../domain/repository/todo_repository.dart';
 
 part 'add_todo_event.dart';
 part 'add_todo_state.dart';
 
 class AddTodoBloc extends Bloc<AddTodoBlocEvent, AddTodoState> {
-  final TodoRepositoryImpl _todoRepositoryImpl;
+  final TodoRepository _todoRepository;
 
   AddTodoBloc({
-    required TodoRepositoryImpl todoRepositoryImpl,
+    required TodoRepository todoRepository,
     required Todo? initialTodo,
-  }) : _todoRepositoryImpl = todoRepositoryImpl,
+  }) : _todoRepository = todoRepository,
         super(
         AddTodoState(
           initialTodo: initialTodo,
@@ -56,7 +56,7 @@ class AddTodoBloc extends Bloc<AddTodoBlocEvent, AddTodoState> {
     );
 
     try {
-      state.isNewTodo ? await _todoRepositoryImpl.addTodo(todo) : await _todoRepositoryImpl.updateTodo(todo);
+      state.isNewTodo ? await _todoRepository.addTodo(todo) : await _todoRepository.updateTodo(todo);
       emit(state.copyWith(status: AddTodoStatus.success));
     } catch (e) {
       emit(state.copyWith(status: AddTodoStatus.failure));

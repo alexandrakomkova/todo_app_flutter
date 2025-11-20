@@ -21,15 +21,16 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
         providers: [
-          BlocProvider(
-            create: (context) =>
+          BlocProvider<TodoBloc>(
+            create: (todoBlocContext) =>
             TodoBloc(
-                todoRepositoryImpl: context.read<TodoRepositoryImpl>()
+                todoRepository: todoBlocContext.read<TodoRepositoryImpl>()
             )..add(const GetTodoListEvent())
           ),
-          BlocProvider(create: (context) =>
+          BlocProvider<AppBarBloc>(
+              create: (appBarBlocContext) =>
               AppBarBloc(
-                  todoRepositoryImpl: context.read<TodoRepositoryImpl>()
+                  todoRepository: appBarBlocContext.read<TodoRepositoryImpl>()
               )..add(const AppBarTodoStatsRequested())
           ),
         ],
@@ -47,7 +48,7 @@ class _HomeView extends StatelessWidget {
       builder: (_) {
         return BlocProvider(
           create: (_) => AddTodoBloc(
-              todoRepositoryImpl: context.read<TodoRepositoryImpl>(),
+              todoRepository: context.read<TodoRepositoryImpl>(),
               initialTodo: todo
           ),
           child: AddTodoDialog(initialTodo: todo,),

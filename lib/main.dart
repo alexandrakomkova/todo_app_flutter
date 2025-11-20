@@ -5,7 +5,6 @@ import 'package:todo_app/app/app.dart';
 
 import 'app/app_bloc_observer.dart';
 import 'data/data_source/hive_todo_adapter.dart';
-import 'data/repository/todo_repository_impl.dart';
 import 'domain/model/todo.dart';
 
 Future<void> main() async {

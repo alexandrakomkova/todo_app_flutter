@@ -2,19 +2,19 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:todo_app/domain/model/todo_filter/todo_filter.dart';
 
-import '../../../data/repository/todo_repository_impl.dart';
 import '../../../domain/model/todo.dart';
 import '../../../domain/model/todo_order/todo_order.dart';
+import '../../../domain/repository/todo_repository.dart';
 
 part 'todo_event.dart';
 part 'todo_state.dart';
 
 class TodoBloc extends Bloc<TodoEvent, TodoState> {
-  final TodoRepositoryImpl _todoRepositoryImpl;
+  final TodoRepository _todoRepository;
+
   TodoBloc({
-    required TodoRepositoryImpl todoRepositoryImpl,
-  }):_todoRepositoryImpl = todoRepositoryImpl,
-        super(const TodoState()) {
+    required TodoRepository todoRepository,
+  }): _todoRepository = todoRepository, super(const TodoState()) {
     on<AddTodoEvent>(_addTodo);
     on<DeleteTodoEvent>(_deleteTodo);
     on<UpdateTodoEvent>(_updateTodo);
@@ -30,7 +30,8 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
     Emitter<TodoState> emit
   ) async {
     try {
-      await _todoRepositoryImpl.addTodo(event.todo);
+      await _todoRepository.addTodo(event.todo);
+
       emit(state.copyWith(status: TodoStatus.success));
     } catch (e) {
       emit(state.copyWith(status: TodoStatus.failure));
@@ -38,13 +39,14 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
   }
 
   Future<void> _deleteTodo(
-      DeleteTodoEvent event,
-      Emitter<TodoState> emit
+    DeleteTodoEvent event,
+    Emitter<TodoState> emit
   ) async {
     emit(state.copyWith(status: TodoStatus.initial));
 
     try {
-      await _todoRepositoryImpl.deleteTodo(event.todo);
+      await _todoRepository.deleteTodo(event.todo);
+
       emit(state.copyWith(status: TodoStatus.success));
     } catch (e) {
       emit(state.copyWith(status: TodoStatus.failure));
@@ -52,29 +54,28 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
   }
 
   Future<void> _updateTodo(
-      UpdateTodoEvent event,
-      Emitter<TodoState> emit
+    UpdateTodoEvent event,
+    Emitter<TodoState> emit
   ) async {
     emit(state.copyWith(status: TodoStatus.initial));
+
     try {
       final updatedTodoList = List<Todo>.from(state.todoList);
-      await _todoRepositoryImpl.updateTodo(event.todo);
+      await _todoRepository.updateTodo(event.todo);
       emit(state.copyWith(status: TodoStatus.success, todoList: updatedTodoList));
     } catch (e) {
       emit(state.copyWith(status: TodoStatus.failure));
     }
-
   }
 
   Future<void> _getTodoList(
-      GetTodoListEvent event,
-      Emitter<TodoState> emit
-      ) async {
-    await Future.delayed(Duration(microseconds: 1));
+    GetTodoListEvent event,
+    Emitter<TodoState> emit
+  ) async {
     emit(state.copyWith(status: TodoStatus.loading));
 
     await emit.forEach<List<Todo>>(
-      _todoRepositoryImpl.getTodos(),
+      _todoRepository.getTodos(),
       onData: (todos) {
         return state.copyWith(
           status: TodoStatus.success,
@@ -85,8 +86,6 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
         status: TodoStatus.failure,
       ),
     );
-
-    await Future.delayed(Duration(microseconds: 1));
   }
 
   Future<void> _onCompletedChanged(
@@ -98,7 +97,7 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
     final newTodo = event.todo.copyWith(isCompleted: event.isCompleted);
 
     try {
-      await _todoRepositoryImpl.updateTodo(newTodo);
+      await _todoRepository.updateTodo(newTodo);
       emit(state.copyWith(status: TodoStatus.success));
     } catch(e) {
       emit(state.copyWith(status: TodoStatus.failure));
@@ -106,16 +105,16 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
   }
 
   void _onFilterChanged(
-      OnFilterChanged event,
-      Emitter<TodoState> emit,
-      ) {
+    OnFilterChanged event,
+    Emitter<TodoState> emit,
+  ) {
     emit(state.copyWith(filter: event.filter));
   }
 
   void _onOrderTypeChanged(
-      OnOrderTypeChanged event,
-      Emitter<TodoState> emit,
-      ) {
+    OnOrderTypeChanged event,
+    Emitter<TodoState> emit,
+  ) {
     emit(state.copyWith(orderType: event.orderType));
   }
 }
