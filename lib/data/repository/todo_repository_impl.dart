@@ -27,10 +27,9 @@ class TodoRepositoryImpl implements TodoRepository {
   @override
   Future<void> deleteTodo(Todo todo) async {
     final todos = [..._todoStreamController.value];
-    final todoIndex = todos.indexWhere((t) => t.creationTimestamp == todo.creationTimestamp);
-    if (todoIndex == -1) throw TodoNotFoundException();
+    final itemRemoved =  todos.remove(todo);
+    if (!itemRemoved) throw TodoNotFoundException();
 
-    todos.removeAt(todoIndex);
     _todoStreamController.add(todos);
 
     await _todoBox.delete(todo.creationTimestamp.toString());
