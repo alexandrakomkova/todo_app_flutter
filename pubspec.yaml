@@ -35,6 +35,10 @@ flutter:
   uses-material-design: true
   generate: true
 
+analyzer:
+  exclude:
+    - "**/*.g.dart"
+
 linter:
   rules:
     avoid_relative_lib_imports: true

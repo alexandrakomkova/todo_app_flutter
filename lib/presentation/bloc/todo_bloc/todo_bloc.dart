@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:todo_app/domain/model/todo_filter/todo_filter.dart';
 import 'package:todo_app/domain/model/todo.dart';
+import 'package:todo_app/domain/model/todo_filter/todo_filter.dart';
 import 'package:todo_app/domain/model/todo_order/todo_order.dart';
 import 'package:todo_app/domain/repository/todo_repository.dart';
 
