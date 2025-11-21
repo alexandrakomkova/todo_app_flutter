@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/presentation/theme/theme.dart';
-
-import '/domain/model/todo.dart';
-import '/presentation/bloc/todo_bloc/todo_bloc.dart';
+import 'package:todo_app/domain/model/todo.dart';
+import 'package:todo_app/presentation/bloc/todo_bloc/todo_bloc.dart';
 
 
 class TodoCard extends StatelessWidget {

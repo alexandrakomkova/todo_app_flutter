@@ -1,4 +1,4 @@
-import '../todo.dart';
+import 'package:todo_app/domain/model/todo.dart';
 
 enum TodoOrderType {
   descending, ascending;

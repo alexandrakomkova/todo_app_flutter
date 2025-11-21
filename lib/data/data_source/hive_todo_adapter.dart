@@ -1,5 +1,3 @@
-
-
 import 'package:hive_ce/hive.dart';
 import 'package:todo_app/domain/model/todo.dart';
 

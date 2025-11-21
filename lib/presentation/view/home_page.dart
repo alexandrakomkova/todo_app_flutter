@@ -2,17 +2,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/data/repository/todo_repository_impl.dart';
+import 'package:todo_app/domain/model/todo.dart';
 import 'package:todo_app/presentation/bloc/add_todo_bloc/add_todo_bloc.dart';
 import 'package:todo_app/presentation/bloc/app_bar_bloc/app_bar_bloc.dart';
 import 'package:todo_app/presentation/bloc/todo_bloc/todo_bloc.dart';
 import 'package:todo_app/presentation/widget/add_todo_dialog.dart';
+import 'package:todo_app/presentation/widget/empty_todo_list.dart';
 import 'package:todo_app/presentation/widget/todo_card.dart';
 import 'package:todo_app/presentation/widget/todo_filter_button.dart';
 import 'package:todo_app/presentation/widget/todo_sort_button.dart';
-
-import '/domain/model/todo.dart';
-import '/presentation/widget/empty_todo_list.dart';
-
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});

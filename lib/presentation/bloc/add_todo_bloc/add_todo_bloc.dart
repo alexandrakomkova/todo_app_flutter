@@ -1,9 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:equatable/equatable.dart';
-
-import '/domain/model/todo.dart';
-import '/domain/repository/todo_repository.dart';
+import 'package:todo_app/domain/model/todo.dart';
+import 'package:todo_app/domain/repository/todo_repository.dart';
 
 part 'add_todo_event.dart';
 part 'add_todo_state.dart';

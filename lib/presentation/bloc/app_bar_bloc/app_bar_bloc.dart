@@ -1,9 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:todo_app/domain/model/todo_filter/todo_filter.dart';
-
-import '/domain/model/todo.dart';
-import '/domain/repository/todo_repository.dart';
+import 'package:todo_app/domain/model/todo.dart';
+import 'package:todo_app/domain/repository/todo_repository.dart';
 
 part 'app_bar_event.dart';
 part 'app_bar_state.dart';
