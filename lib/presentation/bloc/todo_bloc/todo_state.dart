@@ -16,7 +16,6 @@ final class TodoState extends Equatable {
   });
 
   Iterable<Todo> get filteredTodos => filter.applyAll(todoList);
-  Iterable<Todo> get orderedTodos => orderType.sort(todoList.toList());
   Iterable<Todo> get filteredAndOrderedTodos => sortTodos(filteredTodos.toList(), orderType);
 
     TodoState copyWith({

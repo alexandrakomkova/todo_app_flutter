@@ -1,5 +1,3 @@
-
-
 import 'package:hive_ce/hive.dart';
 import 'package:todo_app/domain/model/todo.dart';
 
@@ -13,7 +11,7 @@ class TodoAdapter extends TypeAdapter<Todo> {
         title: reader.read(),
         description: reader.read(),
         isCompleted: reader.read(),
-        timestampInMillisecondsFromEpoch: reader.read(),
+        creationTimestamp: reader.read(),
     );
   }
   
@@ -22,7 +20,7 @@ class TodoAdapter extends TypeAdapter<Todo> {
     writer.write(todo.title);
     writer.write(todo.description);
     writer.write(todo.isCompleted);
-    writer.write(todo.timestampInMillisecondsFromEpoch);
+    writer.write(todo.creationTimestamp);
   }
   
 }

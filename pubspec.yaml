@@ -20,6 +20,7 @@ dependencies:
   equatable: ^2.0.7
   rxdart: ^0.28.0
   flutter_localization: ^0.3.3
+  bloc_concurrency: ^0.3.0
 
 dev_dependencies:
   flutter_test:
@@ -33,3 +34,11 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   generate: true
+
+analyzer:
+  exclude:
+    - "**/*.g.dart"
+
+linter:
+  rules:
+    avoid_relative_lib_imports: true

@@ -1,22 +1,23 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:todo_app/data/repository/todo_repository_impl.dart';
 import 'package:todo_app/domain/model/todo_filter/todo_filter.dart';
-
-import '../../../domain/model/todo.dart';
+import 'package:todo_app/domain/model/todo.dart';
+import 'package:todo_app/domain/repository/todo_repository.dart';
 
 part 'app_bar_event.dart';
 part 'app_bar_state.dart';
 
 class AppBarBloc extends Bloc<AppBarEvent, AppBarState> {
-  final TodoRepositoryImpl _todoRepositoryImpl;
+  final TodoRepository _todoRepository;
 
   AppBarBloc({
-    required TodoRepositoryImpl todoRepositoryImpl
-  }) : _todoRepositoryImpl = todoRepositoryImpl,
-        super(const AppBarState()) {
+    required TodoRepository todoRepository
+  }) : _todoRepository = todoRepository, super(const AppBarState()) {
     on<AppBarTodoStatsRequested>(_getTodoStats);
   }
+
+  factory AppBarBloc.requestStats({required TodoRepository todoRepository}) =>
+    AppBarBloc(todoRepository: todoRepository)..add(AppBarTodoStatsRequested());
 
   Future<void> _getTodoStats(
       AppBarTodoStatsRequested event,
@@ -25,13 +26,13 @@ class AppBarBloc extends Bloc<AppBarEvent, AppBarState> {
     emit(state.copyWith(status: AppBarStatus.loading));
     
     await emit.forEach<List<Todo>>(
-        _todoRepositoryImpl.getTodos(),
-        onData: (todos) => state.copyWith(
-          status: AppBarStatus.success,
-          completedTodoCount: todos.where((todo) => todo.isCompleted).length,
-          unCompletedTodoCount: todos.where((todo) => !todo.isCompleted).length,
-        ),
-        onError: (_, _) => state.copyWith(status:  AppBarStatus.failure)
+      _todoRepository.getTodos(),
+      onData: (todos) => state.copyWith(
+        status: AppBarStatus.success,
+        completedTodoCount: todos.where((todo) => todo.isCompleted).length,
+        unCompletedTodoCount: todos.where((todo) => !todo.isCompleted).length,
+      ),
+      onError: (_, _) => state.copyWith(status:  AppBarStatus.failure)
     );
   }
 }

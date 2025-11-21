@@ -1,29 +1,36 @@
 import 'package:bloc/bloc.dart';
+import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:equatable/equatable.dart';
-import 'package:todo_app/data/repository/todo_repository_impl.dart';
-
-import '../../../domain/model/todo.dart';
+import 'package:todo_app/domain/model/todo.dart';
+import 'package:todo_app/domain/repository/todo_repository.dart';
 
 part 'add_todo_event.dart';
 part 'add_todo_state.dart';
 
 class AddTodoBloc extends Bloc<AddTodoBlocEvent, AddTodoState> {
-  final TodoRepositoryImpl _todoRepositoryImpl;
+  final TodoRepository _todoRepository;
+  final Todo? _initialTodo;
 
   AddTodoBloc({
-    required TodoRepositoryImpl todoRepositoryImpl,
-    required Todo? initialTodo,
-  }) : _todoRepositoryImpl = todoRepositoryImpl,
-        super(
-        AddTodoState(
-          initialTodo: initialTodo,
-          title:  initialTodo?.title ?? '',
-          description:  initialTodo?.description ?? '',
-        ),
-  ) {
-    on<OnTodoTitleChanged>(_onTodoTitleChanged);
-    on<OnTodoDescriptionChanged>(_onTodoDescriptionChanged);
-    on<OnTodoSave>(_onTodoSave);
+    required TodoRepository todoRepository,
+    Todo? initialTodo,
+  }) : _initialTodo = initialTodo,
+       _todoRepository = todoRepository,
+       super(
+         AddTodoState(
+           id: initialTodo?.id ?? '',
+           title: initialTodo?.title ?? '',
+           description:  initialTodo?.description  ?? '',
+         ),
+      ) {
+    on<AddTodoBlocEvent>(
+      (event, emit) => switch (event) {
+        final OnTodoTitleChanged event => _onTodoTitleChanged(event, emit),
+        final OnTodoDescriptionChanged event => _onTodoDescriptionChanged(event, emit),
+        final OnTodoSave event => _onTodoSave(event, emit),
+      },
+      transformer: droppable()
+    );
   }
 
   void _onTodoTitleChanged(
@@ -41,24 +48,22 @@ class AddTodoBloc extends Bloc<AddTodoBlocEvent, AddTodoState> {
   }
 
   Future<void> _onTodoSave(
-      OnTodoSave event,
-      Emitter<AddTodoState> emit
+    OnTodoSave event,
+    Emitter<AddTodoState> emit
   ) async {
     emit(state.copyWith(status: AddTodoStatus.loading));
 
-    final todo = (state.initialTodo ?? Todo(
-        title: '',
-        description: '',
-        timestampInMillisecondsFromEpoch: DateTime.now().millisecondsSinceEpoch
-    )).copyWith(
-      title: state.title,
-      description: state.description,
+    final todo = Todo(
+        title: state.title,
+        description: state.description,
+        isCompleted: _initialTodo?.isCompleted ?? false,
+        creationTimestamp: _initialTodo?.creationTimestamp ?? DateTime.now().millisecondsSinceEpoch,
     );
 
     try {
-      state.isNewTodo ? await _todoRepositoryImpl.addTodo(todo) : await _todoRepositoryImpl.updateTodo(todo);
+      state.isNewTodo ? await _todoRepository.addTodo(todo) : _todoRepository.updateTodo(todo);
       emit(state.copyWith(status: AddTodoStatus.success));
-    } catch (e) {
+    } catch(e) {
       emit(state.copyWith(status: AddTodoStatus.failure));
     }
   }

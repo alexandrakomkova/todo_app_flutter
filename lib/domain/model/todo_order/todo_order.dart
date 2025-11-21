@@ -1,8 +1,8 @@
-import '../todo.dart';
+import 'package:todo_app/domain/model/todo.dart';
 
-enum TodoOrderType { descending, ascending }
+enum TodoOrderType {
+  descending, ascending;
 
-extension OrderTypeX on TodoOrderType {
   Iterable<Todo> sort(List<Todo> todos) {
     return sortTodos(todos, this);
   }
@@ -11,9 +11,9 @@ extension OrderTypeX on TodoOrderType {
 Iterable<Todo> sortTodos(List<Todo> todos, TodoOrderType orderType) {
   switch(orderType) {
     case TodoOrderType.descending:
-      todos.sort((a,b) => a.timestampInMillisecondsFromEpoch.compareTo(b.timestampInMillisecondsFromEpoch));
+      todos.sort((a,b) => a.creationTimestamp.compareTo(b.creationTimestamp));
     case TodoOrderType.ascending:
-      todos.sort((b,a) => a.timestampInMillisecondsFromEpoch.compareTo(b.timestampInMillisecondsFromEpoch));
+      todos.sort((b,a) => a.creationTimestamp.compareTo(b.creationTimestamp));
   }
 
   return todos;
