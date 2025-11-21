@@ -17,6 +17,9 @@ class AppBarBloc extends Bloc<AppBarEvent, AppBarState> {
     on<AppBarTodoStatsRequested>(_getTodoStats);
   }
 
+  factory AppBarBloc.requestStats({required TodoRepository todoRepository}) =>
+    AppBarBloc(todoRepository: todoRepository);
+
   Future<void> _getTodoStats(
       AppBarTodoStatsRequested event,
       Emitter<AppBarState> emit,

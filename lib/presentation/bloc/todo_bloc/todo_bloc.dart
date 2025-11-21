@@ -29,6 +29,9 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
     );
   }
 
+  factory TodoBloc.getList({required TodoRepository todoRepository,}) =>
+      TodoBloc(todoRepository: todoRepository)..add(const GetTodoListEvent());
+
   Future<void> _addTodo(
     AddTodoEvent event,
     Emitter<TodoState> emit

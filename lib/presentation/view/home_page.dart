@@ -23,15 +23,15 @@ class HomePage extends StatelessWidget {
         providers: [
           BlocProvider<TodoBloc>(
             create: (todoBlocContext) =>
-            TodoBloc(
+            TodoBloc.getList(
                 todoRepository: todoBlocContext.read<TodoRepositoryImpl>()
-            )..add(const GetTodoListEvent())
+            )
           ),
           BlocProvider<AppBarBloc>(
               create: (appBarBlocContext) =>
-              AppBarBloc(
+              AppBarBloc.requestStats(
                   todoRepository: appBarBlocContext.read<TodoRepositoryImpl>()
-              )..add(const AppBarTodoStatsRequested())
+              )
           ),
         ],
         child: const _HomeView(),
